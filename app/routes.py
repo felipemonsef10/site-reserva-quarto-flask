@@ -1,24 +1,31 @@
 from flask import render_template, redirect, url_for, flash
 from app import app
-from app.models import Usuario
+from app.models import Quarto
 from app.forms.user_forms import CadastroUserForm, LoginUserForm
+from app.forms.quarto_forms import CadastroQuartoForm
 from flask_login import login_user, logout_user, current_user, login_required
 
 
 @app.route('/')
 def main():
-    quartos = [
-        {'id': '1', 'Descrição': 'Quarto 1', 'Status': 'vazio'},
-        {'id': '2', 'Descrição': 'Quarto 2', 'Status': 'vazio'},
-        {'id': '3', 'Descrição': 'Quarto 3', 'Status': 'vazio'},
-        {'id': '4', 'Descrição': 'Quarto 4', 'Status': 'vazio'},
-        {'id': '5', 'Descrição': 'Quarto 5', 'Status': 'vazio'},
-        {'id': '6', 'Descrição': 'Quarto 6', 'Status': 'vazio'},
-    ]
+    quartos = Quarto.query.all()
     
     contex = {'quartos': quartos}
 
     return render_template('index.html', contex=contex)
+
+
+@app.route('/quarto/cadastro/', methods=['GET', 'POST'])
+@login_required
+def cadastro_quartos():
+    form = CadastroQuartoForm()
+    if form.validate_on_submit():
+        quarto = form.cadastrar()
+
+        flash('Quarto cadastrado com sucesso!', 'alert-success')
+        return redirect(url_for('main'))
+
+    return render_template('form_cadastro_quarto.html', form=form)
 
 
 @app.route('/users/cadastro/', methods=['GET', 'POST'])

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Cadastrar Quarto</h1>
+        <form action="" method="POST">
+            {{ form.csrf_token }}
+
+            <div class="form-group">
+                {{ form.numero_quarto.label() }}
+                {{ form.numero_quarto(class="form-control") }}
+            </div>
+            {{ form.btn_submit(class="btn btn-primary mt-2") }}
+        </form>
+    </div>
+{% endblock %}

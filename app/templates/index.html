@@ -10,12 +10,16 @@
                 <div class="col-md-auto">
                     <div class="card" style="width: 30rem;">
                         <div class="card-header">
-                            {{ quarto['id'] }}
+                            <!-- Quarto: {{ quarto.numero_quarto }} -->
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ quarto['Descrição'] }}</h5>
+                            <h5 class="card-title">Quarto {{ quarto.numero_quarto }}</h5>
                             
-                            <button type="button" class="btn btn-primary" disabled>{{ quarto['Status'] }}</button>
+                            {% if quarto.status %}
+                                <button type="button" class="btn btn-danger" disabled>Quarto Reservado</button>
+                            {% else %}
+                                <button type="button" class="btn btn-success" disabled>Quarto Vago</button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
