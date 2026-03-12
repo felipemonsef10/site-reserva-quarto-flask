@@ -1,0 +1,6 @@
+**/__pycache__
+.venv/
+tests/
+instance/
+db_testes.py
+.env
