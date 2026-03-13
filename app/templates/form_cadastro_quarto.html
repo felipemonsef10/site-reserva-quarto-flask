@@ -7,8 +7,21 @@
             {{ form.csrf_token }}
 
             <div class="form-group">
-                {{ form.numero_quarto.label() }}
-                {{ form.numero_quarto(class="form-control") }}
+                {{ form.numero_quarto.label(class="form-control-label") }}
+
+                {% if form.numero_quarto.errors %}
+                    {{ form.numero_quarto(class="form-control is-invalid") }}
+
+                    {% for erro in form.numero_quarto.errors %}
+                        <div class="invalid-feedback">
+                            {{ erro }}
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+                    {{ form.numero_quarto(class="form-control") }}
+                {% endif %}
+
             </div>
             {{ form.btn_submit(class="btn btn-primary mt-2") }}
         </form>

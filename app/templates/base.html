@@ -11,7 +11,30 @@
 
 <body>
 
-    <div class="container mt-2">
+    <div class="container mt-2 mb-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav"> <!-- ms-auto alinha a direita -->
+                        <a class="btn btn-outline-primary" href="{{ url_for('main') }}">Visualizar Quartos</a>
+                    </ul>
+                    <ul class="navbar-nav ms-auto"> <!-- ms-auto alinha a direita -->
+                        {% if current_user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="btn btn-primary" href="{{ url_for('cadastro_quartos') }}">Cadastrar Quarto</a>
+                                <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="btn btn-primary" href="{{ url_for('login') }}">Fazer Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Mostra as flash messages -->
         {% with mensagens = get_flashed_messages(with_categories=True) %}
             {% if mensagens %}
                 {% for categoria, mensagem in mensagens %}
@@ -22,7 +45,7 @@
             {% endif %}
         {% endwith %}
     </div>
-
+    
     {% block content %} {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

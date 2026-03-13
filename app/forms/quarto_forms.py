@@ -10,6 +10,11 @@ class CadastroQuartoForm(FlaskForm):
     btn_submit = SubmitField('Cadastrar')
 
 
+    def validate_numero_quarto(self, numero_quarto):
+        if Quarto.query.filter_by(numero_quarto=numero_quarto.data).first():
+            raise ValidationError('Quarto já cadastrado!')
+
+
     def cadastrar(self):    
         quarto = Quarto(
             numero_quarto=self.numero_quarto.data,
