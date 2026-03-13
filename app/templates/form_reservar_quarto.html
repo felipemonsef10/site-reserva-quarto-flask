@@ -2,27 +2,27 @@
 
 {% block content %}
     <div class="container">
-        <h1>Cadastrar Quarto</h1>
+        <h1>Reserva de Quarto</h1>
+        <hr>
+        <h2>Quarto N° {{ quarto.numero_quarto }}</h2>
+        <hr>
         <form action="" method="POST">
             {{ form.csrf_token }}
 
             <div class="form-group">
-                {{ form.cidade.label(class="form-control-label") }}
-                {{ form.cidade(class="form-check") }}
+                {{ form.hospede.label(class="form-control-label") }}
 
-                {{ form.numero_quarto.label(class="form-control-label") }}
+                {% if form.hospede.errors %}
+                    {{ form.hospede(class="form-control is-invalid") }}
 
-                {% if form.numero_quarto.errors %}
-                    {{ form.numero_quarto(class="form-control is-invalid") }}
-
-                    {% for erro in form.numero_quarto.errors %}
+                    {% for erro in form.hospede.errors %}
                         <div class="invalid-feedback">
                             {{ erro }}
                         </div>
                     {% endfor %}
 
                 {% else %}
-                    {{ form.numero_quarto(class="form-control") }}
+                    {{ form.hospede(class="form-control") }}
                 {% endif %}
 
             </div>

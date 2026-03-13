@@ -1,20 +1,15 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from app import app, db
 from app.models import Quarto
 from app.forms.user_forms import LoginUserForm
-from app.forms.quarto_forms import CadastroQuartoForm
+from app.forms.quarto_forms import CadastroQuartoForm, ReservarQuartoForm
 from flask_login import login_user, logout_user, current_user, login_required
 
 
 @app.route('/')
 def main():
     quartos = Quarto.query.all()
-    contex = {'quartos': quartos}
-    
-    if current_user.is_authenticated:
-        contex['current_user'] = True
-    else:
-        contex['current_user'] = False
+    contex = {'quartos': quartos, 'current_user': current_user.is_authenticated}
 
     return render_template('index.html', contex=contex)
 
@@ -30,7 +25,7 @@ def login():
         user = form.login()
 
         if user:
-            login_user(user)
+            login_user(user, remember=True)
             flash('Login bem sucedido!', 'alert-success')
             return redirect(url_for('main'))
         else:
@@ -52,6 +47,37 @@ def cadastro_quartos():
     return render_template('form_cadastro_quarto.html', form=form)
 
 
+@app.route('/quarto/<int:id>/reserva', methods=['GET', 'POST'])
+@login_required
+def reservar_quarto(id):
+    form = ReservarQuartoForm()
+    quarto = Quarto.query.get(id)
+
+    if form.validate_on_submit():
+        quarto.hospede = form.hospede.data
+        quarto.status = True
+
+        db.session.commit()
+
+        flash('Quarto reservado com sucesso!', 'alert-success')
+        return redirect(url_for('main'))
+    
+    return render_template('form_reservar_quarto.html', form=form, quarto=quarto)
+
+
+@app.route('/quarto/<int:id>/cancelar_reserva', methods=['GET', 'POST'])
+@login_required
+def cancelar_reserva(id):
+    quarto = Quarto.query.get(id)
+
+    quarto.hospede = 'Quarto Vago'
+    quarto.status = False
+
+    db.session.commit()
+    flash('Reserva cancelada com sucesso!', 'alert-warning')
+    return redirect(url_for('main'))
+
+
 @app.route('/quarto/<int:id>/delete')
 @login_required
 def excluir_quarto(id):
@@ -65,7 +91,7 @@ def excluir_quarto(id):
         db.session.delete(quarto)
         db.session.commit()
 
-        flash('Quarto Excluído com Sucesso', 'alert-warning')
+        flash('Quarto excluído com sucesso!', 'alert-warning')
         return redirect(url_for('main'))
 
 
