@@ -6,10 +6,19 @@ from app.forms.quarto_forms import CadastroQuartoForm, ReservarQuartoForm
 from flask_login import login_user, logout_user, current_user, login_required
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def main():
+    contex = {}
+    contex['current_user'] = current_user.is_authenticated
+    
     quartos = Quarto.query.all()
-    contex = {'quartos': quartos, 'current_user': current_user.is_authenticated}
+
+    cidade = request.args.get('cidade', '')
+    if cidade:
+        contex['cidade'] = cidade
+        quartos = [quarto for quarto in quartos if cidade == quarto.cidade.replace(' ', '')]
+    
+    contex['quartos'] = quartos
 
     return render_template('index.html', contex=contex)
 

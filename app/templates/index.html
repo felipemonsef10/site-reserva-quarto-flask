@@ -8,13 +8,26 @@
     <h1 class="mb-3">Lista de Quartos</h1>
     <hr>
 
+    <div class="mb-2">
+        <input type="radio" class="btn-check" name="options" id="option1" 
+            value="PiresdoRio" autocomplete="off" 
+            onclick="atualizarCidade(this.value)"
+            {% if contex['cidade'] == 'PiresdoRio' %} checked {% endif %}>
+        <label class="btn btn-secondary" for="option1">Pires do Rio</label>
+
+        <input type="radio" class="btn-check" name="options" id="option2" 
+            value="Goiandira" autocomplete="off" 
+            onclick="atualizarCidade(this.value)"
+            {% if contex['cidade'] == 'Goiandira' %} checked {% endif %}>
+        <label class="btn btn-secondary" for="option2">Goiandira</label>
+    </div>
+
     {% if not contex['quartos'] %}
         <div class="alert alert-warning" role="alert">
             Nenhum quarto cadastrado.
         </div>
 
     {% else %}
-
         {% for quarto in contex['quartos'] %}
             <div class="row justify-content-center">
                 <div class="card mb-2" style="width:400px">
@@ -38,16 +51,21 @@
                                 {% else %}
                                     <a href="{{ url_for('reservar_quarto', id=quarto.id) }}" class="btn btn-primary border">Reservar Quarto</a>
                                 {% endif %}
-                                <a href="{{ url_for('excluir_quarto', id=quarto.id) }}" class="btn btn-danger">Excluir</a>
+                                    <a href="{{ url_for('excluir_quarto', id=quarto.id) }}" class="btn btn-danger">Excluir</a>
                             </div>
                         {% endif %}
                     </div>
                 </div>
             </div>
-
         {% endfor %}
     {% endif %}
 
+    <script>
+        function atualizarCidade(valor) {
+            // Redireciona para a mesma página adicionando o parâmetro ?cidade=
+            window.location.href = window.location.pathname + "?cidade=" + valor;
+        }
+    </script>
 </div>
 
 {% endblock %}
