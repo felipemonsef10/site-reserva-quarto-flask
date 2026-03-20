@@ -19,7 +19,7 @@
                 
                 <div>
                     {% if current_user.is_authenticated %}
-                        <a class="btn btn-primary" href="{{ url_for('cadastro_quartos') }}">Cadastrar</a>
+                        <a class="btn btn-primary" href="{{ url_for('cadastro_quartos') }}">Cadastrar Quarto</a>
                         <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
                     {% else %}
                         <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>

@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
-from app import app, db
-from app.models import Quarto
-from app.forms.user_forms import LoginUserForm
+from app import app, db, bcrypt
+from app.models import Quarto, Usuario
+from app.forms.user_forms import LoginUserForm, CadastroUserForm
 from app.forms.quarto_forms import CadastroQuartoForm, ReservarQuartoForm
 from flask_login import login_user, logout_user, current_user, login_required
 
@@ -41,6 +41,24 @@ def login():
             flash('Erro! Usuário não autenticado.', 'alert-danger')
     
     return render_template('form_login.html', form=form)
+
+
+@app.route('/cadastrar-usuario/', methods=['GET', 'POST'])
+@login_required
+def cadastro_user():    
+    form = CadastroUserForm()
+
+    if form.validate_on_submit():
+        senha = bcrypt.generate_password_hash(form.senha.data)
+        user = Usuario(username=form.username.data, senha=senha)
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash('Cadastro bem sucedido!', 'alert-success')
+        return redirect(url_for('main'))
+    
+    return render_template('form_cadastro_user.html', form=form)
 
 
 @app.route('/quarto/cadastro/', methods=['GET', 'POST'])
