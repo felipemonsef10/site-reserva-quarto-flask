@@ -9,8 +9,8 @@ def load_usuario(id_usuario):
 
 class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
-    senha = db.Column(db.String(20), nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    senha = db.Column(db.String(128), nullable=False)
 
 
 class Quarto(db.Model):
