@@ -16,6 +16,6 @@ class Usuario(db.Model, UserMixin):
 class Quarto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cidade = db.Column(db.String(25), nullable=False)
-    numero_quarto = db.Column(db.Integer, nullable=False, unique=True)
+    numero_quarto = db.Column(db.Integer, nullable=False)
     hospede = db.Column(db.String(50), nullable=False, default='Quarto Vago')
     status = db.Column(db.Boolean, nullable=False, default=False)
