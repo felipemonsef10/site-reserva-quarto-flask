@@ -14,7 +14,7 @@ class CadastroQuartoForm(FlaskForm):
     def validate_numero_quarto(self, numero_quarto):
         quarto = Quarto.query.filter_by(numero_quarto=numero_quarto.data, cidade=self.cidade.data).first()
         if quarto and self.cidade.data == quarto.cidade:
-            raise ValidationError(f'Quarto já cadastrado para essa cidade! {self.cidade.data} {quarto.cidade}')
+            raise ValidationError(f'Quarto já cadastrado para essa cidade! {quarto.cidade}.')
 
 
     def cadastrar(self):    
