@@ -118,7 +118,7 @@ def excluir_quarto(id):
         db.session.delete(quarto)
         db.session.commit()
 
-        flash('Quarto excluído com sucesso!', 'alert-warning')
+        flash(f'Quarto {quarto.numero_quarto} {quarto.cidade} excluído com sucesso!', 'alert-info')
         return redirect(url_for('main'))
 
 
