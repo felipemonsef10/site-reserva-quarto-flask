@@ -1,32 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Reserva de Quarto</h1>
-        <hr>
-        <h2>Quarto N° {{ quarto.numero_quarto }}</h2>
-        <hr>
-        <form action="" method="POST">
-            {{ form.csrf_token }}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5">
+            <div class="card shadow-lg border-0" style="border-radius: 16px;">
+                <div class="card-header text-center py-4 bg-primary" style="background-color: var(--vli-blue) !important; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <h3 class="mb-0 text-white fw-bold">Reserva de Quarto</h3>
+                    <p class="mb-0 text-white-50 mt-1">Quarto N° {{ quarto.numero_quarto }}</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="" method="POST">
+                        {{ form.csrf_token }}
 
-            <div class="form-group">
-                {{ form.hospede.label(class="form-control-label") }}
+                        <div class="form-group mb-4">
+                            {{ form.hospede.label(class="form-label text-secondary fw-semibold mb-2") }}
 
-                {% if form.hospede.errors %}
-                    {{ form.hospede(class="form-control is-invalid") }}
+                            {% if form.hospede.errors %}
+                                {{ form.hospede(class="form-control form-control-lg is-invalid", placeholder="Nome completo do hóspede") }}
 
-                    {% for erro in form.hospede.errors %}
-                        <div class="invalid-feedback">
-                            {{ erro }}
+                                {% for erro in form.hospede.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ erro }}
+                                    </div>
+                                {% endfor %}
+
+                            {% else %}
+                                {{ form.hospede(class="form-control form-control-lg", placeholder="Nome completo do hóspede") }}
+                            {% endif %}
                         </div>
-                    {% endfor %}
 
-                {% else %}
-                    {{ form.hospede(class="form-control") }}
-                {% endif %}
-
+                        <div class="mt-5">
+                            {{ form.btn_submit(class="btn btn-primary w-100 py-3 fw-bold fs-5", style="border-radius: 8px; background-color: var(--vli-orange); border: none;") }}
+                        </div>
+                    </form>
+                </div>
             </div>
-            {{ form.btn_submit(class="btn btn-primary mt-2") }}
-        </form>
+        </div>
     </div>
+</div>
 {% endblock %}

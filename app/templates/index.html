@@ -3,88 +3,122 @@
 
 {% block content %}
 
-<div class="container text-center">
-    <hr>
-    <h1 class="mb-3">Lista de Quartos</h1>
-    <hr>
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">Acomodações Eficientes</h1>
+        <p class="hero-subtitle">Gestão de hospedagem com excelência, segurança e conforto para sua equipe. Selecione a localidade desejada e reserve seu quarto.</p>
+    </div>
+</section>
 
-    <div class="mb-2">
-        <input type="radio" class="btn-check" name="options" id="option1" 
-            value="PiresdoRio" autocomplete="off" 
-            onclick="atualizarCidade(this.value)"
-            {% if contex['cidade'] == 'PiresdoRio' %} checked {% endif %}>
-        <label class="btn btn-secondary" for="option1">Pires do Rio</label>
-
-        <input type="radio" class="btn-check" name="options" id="option2" 
-            value="Goiandira" autocomplete="off" 
-            onclick="atualizarCidade(this.value)"
-            {% if contex['cidade'] == 'Goiandira' %} checked {% endif %}>
-        <label class="btn btn-secondary" for="option2">Goiandira</label>
+<div class="container text-center px-4">
+    <!-- Filtro de Cidades -->
+    <div class="d-flex justify-content-center gap-3 mb-5">
+        <div>
+            <input type="radio" class="btn-check" name="options" id="option1" 
+                value="PiresdoRio" autocomplete="off" 
+                onclick="atualizarCidade(this.value)"
+                {% if contex['cidade'] == 'PiresdoRio' %} checked {% endif %}>
+            <label class="btn btn-secondary shadow-sm" for="option1">Pires do Rio</label>
+        </div>
+        <div>
+            <input type="radio" class="btn-check" name="options" id="option2" 
+                value="Goiandira" autocomplete="off" 
+                onclick="atualizarCidade(this.value)"
+                {% if contex['cidade'] == 'Goiandira' %} checked {% endif %}>
+            <label class="btn btn-secondary shadow-sm" for="option2">Goiandira</label>
+        </div>
     </div>
 
+    <!-- Lista de Quartos -->
     {% if not contex['quartos'] %}
-        <div class="alert alert-warning" role="alert">
-            Nenhum quarto cadastrado.
+        <div class="alert alert-warning shadow-sm mx-auto" role="alert" style="max-width: 600px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle me-2" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+            </svg>
+            Nenhum quarto cadastrado para esta localidade.
         </div>
 
     {% else %}
-        {% for quarto in contex['quartos'] %}
-            <div class="row justify-content-center">
-                <div class="card mb-2" style="width:400px">
-                    <!-- <img class="card-img-top" src="...Add a Link Here..." alt="Card image" style="width:100%"> -->
-                    <div class="card-body">
-                        <div class="card-header">{{ quarto.cidade }}</div>
-                        <h4 class="card-title">Quarto N°: {{ quarto.numero_quarto }}</h4>
-                        <p class="card-text">Ocupado por: <b>{{ quarto.hospede }}</b></p>
+        <div class="row g-4 justify-content-center text-start">
+            {% for quarto in contex['quartos'] %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Hotel Room" style="height: 200px; object-fit: cover;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span class="fs-5">{{ quarto.cidade }}</span>
+                        <span class="badge bg-light text-dark shadow-sm">N° {{ quarto.numero_quarto }}</span>
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-1 text-uppercase small fw-bold">Ocupante atual</h6>
+                            <p class="fs-5 mb-0 text-dark"><b>{{ quarto.hospede if quarto.hospede else 'Ninguém' }}</b></p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            {% if quarto.status %}
+                                <span class="badge bg-danger p-2 fs-6 w-100 shadow-sm">Ocupado</span>
+                            {% else %}
+                                <span class="badge bg-success p-2 fs-6 w-100 shadow-sm">Disponível</span>
+                            {% endif %}
+                        </div>
 
-                        {% if quarto.status %}
-                            <button class="btn btn-danger btn-sm mb-4" disabled>Ocupado</button>
-                        {% else %}
-                            <button class="btn btn-success btn-sm mb-4" disabled>Disponível</button>
-                        {% endif %}
-
-
-                        {% if current_user.is_authenticated %}
-                            <div class="d-flex justify-content-end gap-2 border-top pt-3">
-                                {% if quarto.status %}
-                                    <a href="{{ url_for('cancelar_reserva', id=quarto.id) }}" class="btn btn-primary border">Cancelar Reserva</a>
-                                {% else %}
-                                    <a href="{{ url_for('reservar_quarto', id=quarto.id) }}" class="btn btn-primary border">Reservar Quarto</a>
-                                {% endif %}
-                                <btn type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir{{ quarto.id }}">Excluir</btn>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="modalExcluir{{ quarto.id }}" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title fs-5" id="modalExcluirLabel">Excluir Quarto {{ quarto.numero_quarto }}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">Deseja excluir?</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="button" class="btn btn-danger">
-                                                    <a href="{{ url_for('excluir_quarto', id=quarto.id) }}" style="color: white; text-decoration: none;">Excluir</a>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="mt-auto">
+                            {% if current_user.is_authenticated %}
+                                <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-2">
+                                    {% if quarto.status %}
+                                        <a href="{{ url_for('cancelar_reserva', id=quarto.id) }}" class="btn btn-primary border flex-grow-1 me-2 shadow-sm">Cancelar Reserva</a>
+                                    {% else %}
+                                        <a href="{{ url_for('reservar_quarto', id=quarto.id) }}" class="btn btn-primary border flex-grow-1 me-2 shadow-sm">Reservar</a>
+                                    {% endif %}
+                                    <button type="button" class="btn btn-outline-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#modalExcluir{{ quarto.id }}" title="Excluir">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                        </svg>
+                                    </button>
                                 </div>
-                            </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+                
+                <!-- Modal Excluir -->
+                {% if current_user.is_authenticated %}
+                <div class="modal fade" id="modalExcluir{{ quarto.id }}" tabindex="-1" aria-labelledby="modalExcluirLabel{{ quarto.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content" style="border-radius: 12px; border: none; overflow: hidden;">
+                            <div class="modal-header bg-danger text-white border-0">
+                                <h5 class="modal-title fw-semibold" id="modalExcluirLabel{{ quarto.id }}">Confirmar Exclusão</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center py-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#dc3545" class="bi bi-exclamation-circle mb-3" viewBox="0 0 16 16">
+                                  <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+                                  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                </svg>
+                                <p class="fs-4 fw-bold mb-1 text-dark">Excluir quarto {{ quarto.numero_quarto }}?</p>
+                                <p class="text-muted">Ação irreversível.</p>
+                            </div>
+                            <div class="modal-footer justify-content-center border-0 pb-4">
+                                <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal">Cancelar</button>
+                                <a href="{{ url_for('excluir_quarto', id=quarto.id) }}" class="btn btn-danger px-4 py-2 shadow-sm">Sim, excluir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% endif %}
 
     <script>
         function atualizarCidade(valor) {
-            // Redireciona para a mesma página adicionando o parâmetro ?cidade=
             window.location.href = window.location.pathname + "?cidade=" + valor;
         }
     </script>
 </div>
-
 {% endblock %}

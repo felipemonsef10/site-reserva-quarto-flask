@@ -1,49 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Login</h1>
-        <form action="" method="POST">
-            {{ form.csrf_token }}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5">
+            <div class="card shadow-lg border-0" style="border-radius: 16px;">
+                <div class="card-header text-center py-4 bg-primary" style="background-color: var(--vli-blue) !important; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <h3 class="mb-0 text-white fw-bold">Login Restrito</h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="" method="POST">
+                        {{ form.csrf_token }}
 
-            <div class="form-group">
-                {{ form.username.label() }}
+                        <div class="form-group mb-4">
+                            {{ form.username.label(class="form-label text-secondary fw-semibold mb-2") }}
 
-                {% if form.username.errors %}
-                    {{ form.username(class="form-control is-invalid") }}
-                    
-                    {% for erro in form.username.errors %}
-                        <div class="invalid-feedback">
-                            {{ erro }}
+                            {% if form.username.errors %}
+                                {{ form.username(class="form-control form-control-lg is-invalid", placeholder="Digite seu usuário") }}
+                                
+                                {% for erro in form.username.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ erro }}
+                                    </div>
+                                {% endfor %}
+
+                            {% else %}
+                                {{ form.username(class="form-control form-control-lg", placeholder="Digite seu usuário") }}
+                            {% endif %}
                         </div>
-                    {% endfor %}
+                        
+                        <div class="form-group mb-4">
+                            {{ form.senha.label(class="form-label text-secondary fw-semibold mb-2") }}
 
-                {% else %}
-                    {{ form.username(class="form-control") }}
-                {% endif %}
-            </div>
-            
-            <div class="form-group">
-                {{ form.senha.label() }}
+                            {% if form.senha.errors %}
+                                {{ form.senha(class="form-control form-control-lg is-invalid", placeholder="Sua senha") }}
+                                
+                                {% for erro in form.senha.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ erro }}
+                                    </div>
+                                {% endfor %}
 
-                {% if form.senha.errors %}
-                    {{ form.senha(class="form-control is-invalid") }}
-                    
-                    {% for erro in form.senha.errors %}
-                        <div class="invalid-feedback">
-                            {{ erro }}
+                            {% else %}
+                                {{ form.senha(class="form-control form-control-lg", placeholder="Sua senha") }}
+                            {% endif %}
                         </div>
-                    {% endfor %}
 
-                {% else %}
-                    {{ form.senha(class="form-control") }}
-                {% endif %}
+                        <div class="mt-5">
+                            {{ form.btn_submit(class="btn btn-primary w-100 py-3 fw-bold fs-5", style="border-radius: 8px; background-color: var(--vli-orange); border: none;") }}
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <!-- <div class="checkbox">
-                <label><input type="checkbox"> Remember me</label>
-            </div> -->
-            {{ form.btn_submit(class="btn btn-primary mt-2 mb-3") }}
-        </form>
+        </div>
     </div>
+</div>
 {% endblock %}

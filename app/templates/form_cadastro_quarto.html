@@ -1,32 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h1>Cadastrar Quarto</h1>
-        <form action="" method="POST">
-            {{ form.csrf_token }}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5">
+            <div class="card shadow-lg border-0" style="border-radius: 16px;">
+                <div class="card-header text-center py-4 bg-primary" style="background-color: var(--vli-blue) !important; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <h3 class="mb-0 text-white fw-bold">Cadastrar Novo Quarto</h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="" method="POST">
+                        {{ form.csrf_token }}
 
-            <div class="form-group">
-                {{ form.cidade.label(class="form-control-label") }}
-                {{ form.cidade(class="form-check") }}
-
-                {{ form.numero_quarto.label(class="form-control-label") }}
-
-                {% if form.numero_quarto.errors %}
-                    {{ form.numero_quarto(class="form-control is-invalid") }}
-
-                    {% for erro in form.numero_quarto.errors %}
-                        <div class="invalid-feedback">
-                            {{ erro }}
+                        <div class="form-group mb-4">
+                            {{ form.cidade.label(class="form-label text-secondary fw-semibold mb-2") }}
+                            {{ form.cidade(class="form-select form-select-lg mb-3 shadow-sm") }}
                         </div>
-                    {% endfor %}
 
-                {% else %}
-                    {{ form.numero_quarto(class="form-control") }}
-                {% endif %}
+                        <div class="form-group mb-4">
+                            {{ form.numero_quarto.label(class="form-label text-secondary fw-semibold mb-2") }}
 
+                            {% if form.numero_quarto.errors %}
+                                {{ form.numero_quarto(class="form-control form-control-lg is-invalid", placeholder="Ex: 101") }}
+
+                                {% for erro in form.numero_quarto.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ erro }}
+                                    </div>
+                                {% endfor %}
+
+                            {% else %}
+                                {{ form.numero_quarto(class="form-control form-control-lg", placeholder="Ex: 101") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="mt-5">
+                            {{ form.btn_submit(class="btn btn-primary w-100 py-3 fw-bold fs-5", style="border-radius: 8px; background-color: var(--vli-orange); border: none;") }}
+                        </div>
+                    </form>
+                </div>
             </div>
-            {{ form.btn_submit(class="btn btn-primary mt-2") }}
-        </form>
+        </div>
     </div>
+</div>
 {% endblock %}

@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --vli-orange: #f47920;
+    --vli-orange-hover: #d16215;
+    --vli-blue: #003366;
+    --vli-blue-hover: #001f40;
+    --vli-light-gray: #f8f9fa;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--vli-light-gray);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--vli-blue) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+.navbar-brand {
+    color: white !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+.navbar .btn-outline-primary {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+.navbar .btn-outline-primary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: white;
+}
+.navbar .btn-outline-light {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+.navbar .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: white;
+}
+.navbar .btn-primary {
+    background-color: var(--vli-orange);
+    border-color: var(--vli-orange);
+    font-weight: 600;
+}
+.navbar .btn-primary:hover {
+    background-color: var(--vli-orange-hover);
+    border-color: var(--vli-orange-hover);
+}
+
+/* Flash Messages */
+.alert-container {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 350px;
+}
+.alert {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: none;
+    border-left: 4px solid transparent;
+}
+.alert-success {
+    border-left-color: #28a745;
+}
+.alert-danger, .alert-error {
+    border-left-color: #dc3545;
+}
+.alert-info, .alert-message {
+    border-left-color: var(--vli-blue);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 51, 102, 0.9)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+    margin-bottom: 50px;
+    border-bottom: 5px solid var(--vli-orange);
+}
+.hero-title {
+    font-weight: 800;
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+.hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding-bottom: 60px;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--vli-blue);
+    color: white;
+    padding: 30px 0;
+    margin-top: auto;
+    border-top: 5px solid var(--vli-orange);
+}
+
+/* Cards (Quartos & Formulários) */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    background-color: white;
+    margin-bottom: 24px;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+}
+.card-header {
+    background-color: var(--vli-blue);
+    color: white;
+    font-weight: 600;
+    border-bottom: none;
+    padding: 1rem 1.25rem;
+}
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Buttons in Cards */
+.btn-primary.border {
+    background-color: var(--vli-orange);
+    border-color: var(--vli-orange) !important;
+    color: white;
+}
+.btn-primary.border:hover {
+    background-color: var(--vli-orange-hover);
+    border-color: var(--vli-orange-hover) !important;
+}
+
+/* Filter Buttons (Pills) */
+.btn-check:checked + .btn-secondary {
+    background-color: var(--vli-orange);
+    border-color: var(--vli-orange);
+    color: white;
+}
+.btn-secondary {
+    background-color: white;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+    background-color: var(--vli-light-gray);
+    color: var(--vli-orange);
+    border-color: var(--vli-orange);
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+.form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+}
+.form-control:focus {
+    border-color: var(--vli-orange);
+    box-shadow: 0 0 0 0.25rem rgba(244, 121, 32, 0.25);
+}
+.btn-submit {
+    background-color: var(--vli-orange);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+.btn-submit:hover {
+    background-color: var(--vli-orange-hover);
+}
